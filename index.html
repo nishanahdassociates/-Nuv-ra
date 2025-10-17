@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -57,6 +58,50 @@
     function hideQuickView() {
       document.getElementById('quick-view-modal').classList.add('hidden');
     }
+
+    // Function to simulate a network request and show a loading animation
+    function simulateLoading(buttonElement) {
+      // Find the normal text and the loading spinner elements
+      const buttonText = buttonElement.querySelector('.button-text');
+      const spinner = buttonElement.querySelector('.spinner');
+      
+      // Store the initial text
+      const initialText = buttonText.textContent;
+
+      // Disable the button, hide text, show spinner
+      buttonElement.disabled = true;
+      buttonText.classList.add('hidden');
+      spinner.classList.remove('hidden');
+
+      // Simulate network request duration (e.g., 2 seconds)
+      setTimeout(() => {
+        // Re-enable the button, show text, hide spinner
+        buttonElement.disabled = false;
+        spinner.classList.add('hidden');
+        buttonText.classList.remove('hidden');
+        
+        // Provide feedback: change text briefly to 'Added!'
+        buttonText.textContent = 'Added! 👍';
+        
+        // Revert text after 1 second
+        setTimeout(() => {
+          buttonText.textContent = initialText;
+        }, 1000); 
+      }, 2000); // Loading duration is 2 seconds
+    }
+
+    // NEW FUNCTION: Hide the full-page loader
+    function hideLoader() {
+      const loader = document.getElementById('page-loader');
+      if (loader) {
+        // Add a class to fade out
+        loader.classList.add('opacity-0', 'transition-opacity', 'duration-500', 'ease-out');
+        // Hide it completely after the fade transition ends
+        setTimeout(() => {
+          loader.classList.add('hidden');
+        }, 500); 
+      }
+    }
     
     // Function to manage the scroll-to-top button visibility
     window.onscroll = function() {
@@ -70,6 +115,9 @@
     
     // Initialize the theme immediately
     document.addEventListener('DOMContentLoaded', initTheme);
+    
+    // Hide the loader once the entire page (including images) is loaded
+    window.onload = hideLoader;
   </script>
   
   <style>
@@ -91,11 +139,26 @@
     body, header, main, section, div, article {
       transition: background-color 0.3s ease, color 0.3s ease;
     }
+
+    /* Additional style for the loader background to match the theme */
+    #page-loader {
+      background-color: var(--color-base-bg);
+    }
   </style>
 </head>
 
 <body class="min-h-screen bg-[var(--color-base-bg)] text-[var(--color-base-text)]">
-  
+
+  <div id="page-loader" class="fixed inset-0 z-50 flex items-center justify-center transition-opacity" style="background-color: var(--color-base-bg);">
+    <div class="flex flex-col items-center">
+        <svg class="animate-spin h-12 w-12 text-indigo-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+        </svg>
+        
+        <p class="mt-4 text-xl font-semibold text-gray-700 dark:text-gray-200">Loading Nuvéra...</p>
+    </div>
+  </div>
   <header class="bg-[var(--color-card-bg)] shadow-md sticky top-0 z-40 border-b border-gray-100 dark:border-gray-700">
     <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
       
@@ -381,7 +444,13 @@
                         </div>
                         
                         <div class="mt-6 flex gap-3">
-                            <button class="px-5 py-3 rounded-lg bg-indigo-600 text-white font-medium hover:bg-indigo-700 flex-grow">Add to cart</button>
+                            <button class="px-5 py-3 rounded-lg bg-indigo-600 text-white font-medium hover:bg-indigo-700 flex-grow disabled:bg-indigo-400 flex items-center justify-center" onclick="simulateLoading(this)">
+                                <span class="button-text">Add to cart</span>
+                                <svg class="spinner hidden animate-spin h-5 w-5 text-white" viewBox="0 0 24 24">
+                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                </svg>
+                            </button>
                             <a href="#" class="px-5 py-3 rounded-lg border border-gray-200 dark:border-gray-600 text-gray-700 dark:text-gray-300 font-medium hover:bg-gray-50 dark:hover:bg-gray-600">Details</a>
                         </div>
                     </div>
