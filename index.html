@@ -3,238 +3,271 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Nuvéra — Textile Shop</title>
+  <title>Nuvéra — Gents Collection</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#6366f1',
+            darkbg: '#0f0f10',
+            darkcard: '#1a1a1d',
+            darktext: '#e5e7eb',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    /* Loader */
+    #loader {position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: #0f0f10; display: flex; align-items: center; justify-content: center; z-index: 9999; transition: opacity 0.5s ease;}
+    .fade-out {opacity: 0; pointer-events: none;}
+    .fade-in {animation: fadeIn 1s ease-in-out;}
+    @keyframes fadeIn {from {opacity: 0; transform: scale(0.9);} to {opacity: 1; transform: scale(1);}}
+
+    /* Back to Top */
+    #backToTop {position: fixed; bottom: 40px; right: 40px; background-color: #6366f1; color: white; padding: 10px 15px; border-radius: 50%; cursor: pointer; display: none; z-index: 50;}
+  </style>
 </head>
-<body class="min-h-screen bg-gray-50 text-gray-900">
-  <!-- Header -->
-  <header class="bg-white shadow-sm sticky top-0 z-40">
-    <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-      <div class="flex items-center gap-4">
-        <div class="w-12 h-12 rounded-lg bg-gradient-to-br from-pink-400 to-indigo-500 flex items-center justify-center shadow-md">
-          <span class="text-white font-bold text-xl">N</span>
-        </div>
-        <div>
-          <h1 class="text-xl font-extrabold leading-tight">Nuvéra</h1>
-          <p class="text-xs text-gray-500 -mt-1">Fine textiles • Handloom • Modern designs</p>
-        </div>
+<body class="min-h-screen bg-darkbg text-darktext font-sans">
+
+<!-- Loader -->
+<div id="loader">
+  <h1 class="text-4xl md:text-5xl font-extrabold text-white animate-pulse">Nuvéra</h1>
+</div>
+<script>
+  window.addEventListener("load", () => {
+    setTimeout(() => document.getElementById("loader").classList.add("fade-out"), 1000);
+  });
+</script>
+
+<!-- Header -->
+<header class="bg-darkcard shadow-sm sticky top-0 z-40 backdrop-blur-lg bg-opacity-90 border-b border-gray-700">
+  <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+    <div class="flex items-center gap-4">
+      <div class="w-12 h-12 rounded-lg bg-gradient-to-br from-blue-500 to-indigo-500 flex items-center justify-center shadow-md">
+        <span class="text-white font-bold text-xl">N</span>
       </div>
-
-      <nav class="hidden md:flex items-center gap-6 text-sm font-medium text-gray-700">
-        <a href="#products" class="hover:text-gray-900">Products</a>
-        <a href="#about" class="hover:text-gray-900">About</a>
-        <a href="#gallery" class="hover:text-gray-900">Gallery</a>
-        <a href="#contact" class="hover:text-gray-900">Contact</a>
-        <button class="ml-2 px-4 py-2 rounded-md bg-indigo-600 text-white text-sm shadow-sm hover:bg-indigo-700">Shop Now</button>
-      </nav>
-
-      <div class="md:hidden">
-        <button class="p-2 text-gray-600">☰</button>
+      <div>
+        <h1 class="text-xl font-extrabold">Nuvéra</h1>
+        <p class="text-xs text-gray-400 -mt-1">Gents Wear • Modern & Traditional</p>
       </div>
     </div>
-  </header>
 
-  <!-- Hero -->
-  <main>
-    <section class="relative overflow-hidden">
-      <div class="max-w-7xl mx-auto px-6 py-16 grid md:grid-cols-2 gap-12 items-center">
-        <div>
-          <h2 class="text-4xl md:text-5xl font-extrabold leading-tight">
-            Discover timeless textiles<br>crafted for every moment.
-          </h2>
-          <p class="mt-6 text-gray-600 max-w-lg">At Nuvéra we blend traditional handloom techniques with contemporary designs — curated sarees, kurtas, home textiles and custom tailoring.</p>
+    <nav class="hidden md:flex items-center gap-6 text-sm font-medium text-gray-300">
+      <a href="#products" class="hover:text-white transition">Products</a>
+      <a href="#about" class="hover:text-white transition">About</a>
+      <a href="#contact" class="hover:text-white transition">Contact</a>
+      <button class="ml-2 px-4 py-2 rounded-md bg-primary text-white text-sm shadow hover:bg-indigo-700">Shop Now</button>
+    </nav>
 
-          <div class="mt-8 flex gap-4">
-            <a href="#products" class="inline-flex items-center gap-2 px-5 py-3 rounded-lg bg-indigo-600 text-white font-medium shadow hover:bg-indigo-700">Browse Collection</a>
-            <a href="#contact" class="inline-flex items-center gap-2 px-5 py-3 rounded-lg border border-gray-200 text-gray-700">Custom Orders</a>
-          </div>
+    <!-- Mobile Menu -->
+    <div class="md:hidden">
+      <button id="menuBtn" class="p-2 text-gray-300">☰</button>
+    </div>
+  </div>
+  <div id="mobileMenu" class="hidden md:hidden bg-darkcard border-t border-gray-700">
+    <nav class="flex flex-col items-center py-3 space-y-3 text-gray-300">
+      <a href="#products" class="hover:text-white">Products</a>
+      <a href="#about" class="hover:text-white">About</a>
+      <a href="#contact" class="hover:text-white">Contact</a>
+    </nav>
+  </div>
+  <script>
+    const menuBtn = document.getElementById('menuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    menuBtn.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+  </script>
+</header>
 
-          <div class="mt-8 flex items-center gap-6 text-sm text-gray-600">
-            <div class="flex items-center gap-3">
-              <div class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center">🎁</div>
-              <div>
-                <div class="font-semibold">Free gift wrap</div>
-                <div class="text-xs">On orders ₹2,000+</div>
-              </div>
-            </div>
+<!-- Hero -->
+<section class="relative overflow-hidden bg-gradient-to-br from-blue-900 via-indigo-900 to-gray-900">
+  <div class="max-w-7xl mx-auto px-6 py-16 grid md:grid-cols-2 gap-12 items-center">
+    <div>
+      <h2 class="text-4xl md:text-5xl font-extrabold leading-tight text-white fade-in">Discover Elegant Gents Wear<br>for Every Occasion.</h2>
+      <p class="mt-6 text-gray-300 max-w-lg fade-in">Nuvéra brings you premium men’s wear combining traditional craftsmanship with modern designs — perfect for weddings, parties, and daily elegance.</p>
+      <div class="mt-8 flex gap-4 fade-in">
+        <a href="#products" class="px-5 py-3 rounded-lg bg-primary text-white font-medium shadow hover:bg-indigo-700">Explore Collection</a>
+        <a href="#contact" class="px-5 py-3 rounded-lg border border-gray-600 text-gray-200 hover:bg-gray-800">Custom Tailoring</a>
+      </div>
+    </div>
+    <div class="hidden md:block fade-in">
+      <div class="rounded-3xl overflow-hidden shadow-xl">
+        <img src="https://images.unsplash.com/photo-1622279395009-2b2e7f36e31d?auto=format&fit=crop&w=1200&q=60" alt="Menswear" class="w-full h-[420px] object-cover">
+      </div>
+    </div>
+  </div>
+</section>
 
-            <div class="flex items-center gap-3">
-              <div class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center">🚚</div>
-              <div>
-                <div class="font-semibold">Nationwide delivery</div>
-                <div class="text-xs">Fast & insured</div>
-              </div>
-            </div>
-          </div>
+<!-- Products -->
+<section id="products" class="max-w-7xl mx-auto px-6 py-12">
+  <div class="flex flex-col md:flex-row items-center justify-between gap-4 md:gap-0">
+    <h3 class="text-2xl font-bold text-white">Featured Gents Collection</h3>
+    <div class="flex gap-4">
+      <select id="categoryFilter" class="px-4 py-2 rounded-md bg-darkcard text-gray-200 border border-gray-700 text-sm">
+        <option value="all">All</option>
+        <option value="kurta">Kurta</option>
+        <option value="blazer">Blazer</option>
+        <option value="shirt">Shirt</option>
+      </select>
+      <input type="text" id="searchInput" placeholder="Search..." class="px-4 py-2 rounded-md bg-darkcard text-gray-200 border border-gray-700 text-sm w-52 focus:outline-none focus:ring-2 focus:ring-indigo-600">
+    </div>
+  </div>
+
+  <div id="productGrid" class="mt-8 grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+    <!-- Product Template -->
+  </div>
+</section>
+
+<!-- Quick View Modal -->
+<div id="quickViewModal" class="fixed inset-0 bg-black bg-opacity-70 hidden items-center justify-center z-50">
+  <div class="bg-darkcard rounded-2xl p-6 max-w-md w-full relative">
+    <span id="closeModal" class="absolute top-3 right-3 cursor-pointer text-gray-400 hover:text-white text-xl">×</span>
+    <img id="modalImg" class="w-full h-64 object-cover rounded-xl" />
+    <h4 id="modalTitle" class="text-white text-lg font-semibold mt-4"></h4>
+    <p id="modalDesc" class="text-gray-400 text-sm mt-2"></p>
+    <div class="text-primary font-bold mt-2" id="modalPrice"></div>
+    <div class="mt-4 flex items-center gap-3">
+      <label class="text-gray-300">Quantity:</label>
+      <input id="modalQty" type="number" min="1" value="1" class="w-16 p-1 rounded-md bg-darkbg border border-gray-700 text-gray-200">
+      <button id="modalAddCart" class="px-4 py-2 rounded-lg bg-primary text-white text-sm">Add to Cart</button>
+    </div>
+  </div>
+</div>
+
+<!-- Back to Top Button -->
+<div id="backToTop">↑</div>
+
+<!-- About Section -->
+<section id="about" class="max-w-7xl mx-auto px-6 py-12 border-t border-gray-800"> ... </section>
+
+<!-- Contact & Newsletter -->
+<section id="contact" class="bg-gradient-to-r from-indigo-950 to-blue-950">
+  <div class="max-w-4xl mx-auto px-6 py-12 rounded-2xl">
+    <div class="grid md:grid-cols-2 gap-8 items-center">
+      <div>
+        <h3 class="text-2xl font-bold text-white">Get in touch</h3>
+        <p class="text-gray-400 mt-2">For bulk orders or custom fittings, contact our design team.</p>
+        <div class="mt-6 space-y-3 text-sm text-gray-400">
+          <p>📍 Studio: Main Street, Kozhikode</p>
+          <p>✉️ hello@nuvera.example</p>
+          <p>📞 +91 98765 43210</p>
         </div>
-
-        <div class="hidden md:block">
-          <div class="rounded-3xl overflow-hidden shadow-xl">
-            <img src="https://images.unsplash.com/photo-1520975913024-19b5d3f6b2d3?auto=format&fit=crop&w=1200&q=60" alt="Textiles" class="w-full h-[420px] object-cover">
-          </div>
+        <div class="mt-6">
+          <h4 class="text-white font-semibold">Subscribe to Newsletter</h4>
+          <input type="email" placeholder="Enter your email" class="mt-2 w-full p-2 rounded-md bg-darkbg border border-gray-700 text-gray-200">
+          <button class="mt-2 px-4 py-2 bg-primary text-white rounded-md">Subscribe</button>
         </div>
       </div>
-    </section>
+      <form class="bg-darkcard p-6 rounded-xl shadow-md"> ... </form>
+    </div>
+  </div>
+</section>
 
-    <!-- Products -->
-    <section id="products" class="max-w-7xl mx-auto px-6 py-12">
-      <h3 class="text-2xl font-bold">Featured products</h3>
-      <p class="text-gray-600 mt-2">Handpicked pieces from our latest collection.</p>
+<!-- Footer -->
+<footer class="mt-12 bg-darkcard border-t border-gray-700"> ... </footer>
 
-      <div class="mt-8 grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
-        <article class="bg-white rounded-2xl shadow-sm overflow-hidden">
-          <img src="https://images.unsplash.com/photo-1541099649105-f69ad21f3246?auto=format&fit=crop&w=800&q=60" alt="Saree" class="w-full h-56 object-cover">
-          <div class="p-5">
-            <h4 class="font-semibold">Handwoven Cotton Saree</h4>
-            <p class="text-xs text-gray-500 mt-1">Lightweight, breathable handloom cotton with intricate border.</p>
-            <div class="text-indigo-600 font-bold mt-2">₹2,499</div>
-            <div class="mt-4 flex items-center gap-3">
-              <button class="px-4 py-2 rounded-lg border border-gray-200 text-sm">View</button>
-              <button class="px-4 py-2 rounded-lg bg-indigo-600 text-white text-sm">Add to cart</button>
-            </div>
-          </div>
-        </article>
+<script>
+// Product Data
+const products = [
+  {id:1,title:"Classic Silk Kurta",desc:"Traditional silk kurta with elegant finish.",price:2499,img:"https://images.unsplash.com/photo-1622279397460-29c20f69c1c9?auto=format&fit=crop&w=800&q=60",category:"kurta"},
+  {id:2,title:"Formal Blazer Set",desc:"Slim-fit blazer perfect for events and office wear.",price:4999,img:"https://images.unsplash.com/photo-1609856844000-8dfd2b15f70d?auto=format&fit=crop&w=800&q=60",category:"blazer"},
+  {id:3,title:"Linen Casual Shirt",desc:"Breathable linen shirt for daily comfort.",price:1299,img:"https://images.unsplash.com/photo-1520974735194-4f63b7ebf01d?auto=format&fit=crop&w=800&q=60",category:"shirt"}
+];
 
-        <article class="bg-white rounded-2xl shadow-sm overflow-hidden">
-          <img src="https://images.unsplash.com/photo-1520975913024-19b5d3f6b2d3?auto=format&fit=crop&w=800&q=60" alt="Kurta" class="w-full h-56 object-cover">
-          <div class="p-5">
-            <h4 class="font-semibold">Silk Blend Kurta</h4>
-            <p class="text-xs text-gray-500 mt-1">Soft silk blend with elegant embroidery for celebrations.</p>
-            <div class="text-indigo-600 font-bold mt-2">₹1,799</div>
-            <div class="mt-4 flex items-center gap-3">
-              <button class="px-4 py-2 rounded-lg border border-gray-200 text-sm">View</button>
-              <button class="px-4 py-2 rounded-lg bg-indigo-600 text-white text-sm">Add to cart</button>
-            </div>
-          </div>
-        </article>
-
-        <article class="bg-white rounded-2xl shadow-sm overflow-hidden">
-          <img src="https://images.unsplash.com/photo-1602810316377-9c0d7fa6d0c4?auto=format&fit=crop&w=800&q=60" alt="Bedspread" class="w-full h-56 object-cover">
-          <div class="p-5">
-            <h4 class="font-semibold">Premium Bedspread</h4>
-            <p class="text-xs text-gray-500 mt-1">Large, durable bedspread with vibrant traditional prints.</p>
-            <div class="text-indigo-600 font-bold mt-2">₹3,499</div>
-            <div class="mt-4 flex items-center gap-3">
-              <button class="px-4 py-2 rounded-lg border border-gray-200 text-sm">View</button>
-              <button class="px-4 py-2 rounded-lg bg-indigo-600 text-white text-sm">Add to cart</button>
-            </div>
-          </div>
-        </article>
-      </div>
-    </section>
-
-    <!-- About -->
-    <section id="about" class="bg-white border-t border-gray-100">
-      <div class="max-w-7xl mx-auto px-6 py-12 grid md:grid-cols-2 gap-8 items-center">
-        <div>
-          <h3 class="text-2xl font-bold">About Nuvéra</h3>
-          <p class="mt-4 text-gray-600">Nuvéra was founded to celebrate artisanal weaving and comfortable everyday luxury. We partner with small weaving communities to bring you sustainable, thoughtfully produced textiles.</p>
-
-          <ul class="mt-6 grid sm:grid-cols-2 gap-4 text-sm text-gray-700">
-            <li>• Ethically sourced materials</li>
-            <li>• Custom tailoring & personalization</li>
-            <li>• Curated seasonal collections</li>
-            <li>• Gift & corporate orders</li>
-          </ul>
-        </div>
-
-        <div>
-          <div class="rounded-xl overflow-hidden shadow-md">
-            <img src="https://images.unsplash.com/photo-1541099649105-f69ad21f3246?auto=format&fit=crop&w=1200&q=60" alt="Weaving" class="w-full h-72 object-cover">
-          </div>
+// Render Products
+const productGrid = document.getElementById('productGrid');
+function renderProducts(list){
+  productGrid.innerHTML = '';
+  list.forEach(p=>{
+    const card = document.createElement('article');
+    card.className='bg-darkcard rounded-2xl shadow overflow-hidden hover:scale-105 transition';
+    card.innerHTML=`
+      <img src="${p.img}" alt="${p.title}" class="w-full h-56 object-cover">
+      <div class="p-5">
+        <h4 class="font-semibold">${p.title}</h4>
+        <p class="text-xs text-gray-400 mt-1">${p.desc}</p>
+        <div class="text-primary font-bold mt-2">₹${p.price}</div>
+        <div class="mt-4 flex items-center gap-3">
+          <button class="px-4 py-2 rounded-lg border border-gray-700 text-sm hover:bg-gray-800 viewBtn" data-id="${p.id}">View</button>
+          <button class="px-4 py-2 rounded-lg bg-primary text-white text-sm addCartBtn" data-id="${p.id}">Add to cart</button>
         </div>
       </div>
-    </section>
+    `;
+    productGrid.appendChild(card);
+  });
+}
+renderProducts(products);
 
-    <!-- Gallery -->
-    <section id="gallery" class="max-w-7xl mx-auto px-6 py-12">
-      <h3 class="text-2xl font-bold">Gallery</h3>
-      <p class="text-gray-600 mt-2">A peek into our studio and customers' favorite looks.</p>
+// Category Filter
+const categoryFilter = document.getElementById('categoryFilter');
+categoryFilter.addEventListener('change', ()=>{
+  const val = categoryFilter.value;
+  const filtered = val==='all'?products:products.filter(p=>p.category===val);
+  renderProducts(filtered);
+});
 
-      <div class="mt-6 grid grid-cols-2 md:grid-cols-4 gap-4">
-        <div class="rounded-lg overflow-hidden shadow-sm"><img src="https://source.unsplash.com/collection/190727/300x300" class="w-full h-40 object-cover"></div>
-        <div class="rounded-lg overflow-hidden shadow-sm"><img src="https://source.unsplash.com/collection/190727/301x300" class="w-full h-40 object-cover"></div>
-        <div class="rounded-lg overflow-hidden shadow-sm"><img src="https://source.unsplash.com/collection/190727/302x300" class="w-full h-40 object-cover"></div>
-        <div class="rounded-lg overflow-hidden shadow-sm"><img src="https://source.unsplash.com/collection/190727/303x300" class="w-full h-40 object-cover"></div>
-        <div class="rounded-lg overflow-hidden shadow-sm"><img src="https://source.unsplash.com/collection/190727/304x300" class="w-full h-40 object-cover"></div>
-        <div class="rounded-lg overflow-hidden shadow-sm"><img src="https://source.unsplash.com/collection/190727/305x300" class="w-full h-40 object-cover"></div>
-        <div class="rounded-lg overflow-hidden shadow-sm"><img src="https://source.unsplash.com/collection/190727/306x300" class="w-full h-40 object-cover"></div>
-        <div class="rounded-lg overflow-hidden shadow-sm"><img src="https://source.unsplash.com/collection/190727/307x300" class="w-full h-40 object-cover"></div>
-      </div>
-    </section>
+// Search Filter
+const searchInput = document.getElementById('searchInput');
+searchInput.addEventListener('input', ()=>{
+  const val = searchInput.value.toLowerCase();
+  const filtered = products.filter(p=>p.title.toLowerCase().includes(val) || p.desc.toLowerCase().includes(val));
+  renderProducts(filtered);
+});
 
-    <!-- Contact -->
-    <section id="contact" class="bg-gradient-to-r from-indigo-50 to-pink-50">
-      <div class="max-w-4xl mx-auto px-6 py-12 rounded-2xl">
-        <div class="grid md:grid-cols-2 gap-8 items-center">
-          <div>
-            <h3 class="text-2xl font-bold">Get in touch</h3>
-            <p class="text-gray-700 mt-2">Questions about an order, custom requests, or wholesale? Drop us a message — we reply within 1 business day.</p>
+// Quick View Modal
+const modal = document.getElementById('quickViewModal');
+const modalImg = document.getElementById('modalImg');
+const modalTitle = document.getElementById('modalTitle');
+const modalDesc = document.getElementById('modalDesc');
+const modalPrice = document.getElementById('modalPrice');
+const modalQty = document.getElementById('modalQty');
+const modalAddCart = document.getElementById('modalAddCart');
+const closeModal = document.getElementById('closeModal');
 
-            <div class="mt-6 space-y-3 text-sm text-gray-700">
-              <div class="flex items-start gap-3">
-                <div class="w-10 h-10 rounded-md bg-white flex items-center justify-center shadow">📍</div>
-                <div>
-                  <div class="font-semibold">Flagship Studio</div>
-                  <div class="text-xs text-gray-600">Sample Street, City, State</div>
-                </div>
-              </div>
+productGrid.addEventListener('click', e=>{
+  if(e.target.classList.contains('viewBtn')){
+    const id = e.target.dataset.id;
+    const p = products.find(pr=>pr.id==id);
+    modalImg.src=p.img;
+    modalTitle.textContent=p.title;
+    modalDesc.textContent=p.desc;
+    modalPrice.textContent='₹'+p.price;
+    modalQty.value=1;
+    modalAddCart.dataset.id=id;
+    modal.classList.remove('hidden');
+  }
+});
+closeModal.addEventListener('click', ()=> modal.classList.add('hidden'));
 
-              <div class="flex items-start gap-3">
-                <div class="w-10 h-10 rounded-md bg-white flex items-center justify-center shadow">✉️</div>
-                <div>
-                  <div class="font-semibold">hello@nuvera.example</div>
-                  <div class="text-xs text-gray-600">We aim to respond within one business day.</div>
-                </div>
-              </div>
+// Add to Cart
+function addToCart(id, qty){
+  let cart = JSON.parse(localStorage.getItem('cart'))||[];
+  const index = cart.findIndex(c=>c.id==id);
+  if(index>-1){cart[index].qty+=qty;} else {cart.push({id,qty});}
+  localStorage.setItem('cart',JSON.stringify(cart));
+  alert('Added to cart!');
+}
+productGrid.addEventListener('click', e=>{
+  if(e.target.classList.contains('addCartBtn')){
+    addToCart(e.target.dataset.id,1);
+  }
+});
+modalAddCart.addEventListener('click', ()=>{
+  addToCart(modalAddCart.dataset.id,parseInt(modalQty.value));
+  modal.classList.add('hidden');
+});
 
-              <div class="flex items-start gap-3">
-                <div class="w-10 h-10 rounded-md bg-white flex items-center justify-center shadow">📞</div>
-                <div>
-                  <div class="font-semibold">+91 98765 43210</div>
-                  <div class="text-xs text-gray-600">Mon–Sat 10:00 — 18:00</div>
-                </div>
-              </div>
-            </div>
-          </div>
+// Back to Top
+const backToTop = document.getElementById('backToTop');
+window.addEventListener('scroll', ()=>{
+  backToTop.style.display = window.scrollY>300?'block':'none';
+});
+backToTop.addEventListener('click', ()=>{
+  window.scrollTo({top:0, behavior:'smooth'});
+});
+</script>
 
-          <form class="bg-white p-6 rounded-xl shadow-md">
-            <label class="block text-sm font-medium text-gray-700">Name</label>
-            <input class="mt-1 block w-full rounded-md border-gray-200 shadow-sm p-2" placeholder="Your name">
-
-            <label class="block text-sm font-medium text-gray-700 mt-4">Email</label>
-            <input class="mt-1 block w-full rounded-md border-gray-200 shadow-sm p-2" placeholder="you@example.com">
-
-            <label class="block text-sm font-medium text-gray-700 mt-4">Message</label>
-            <textarea class="mt-1 block w-full rounded-md border-gray-200 shadow-sm p-2" rows="4" placeholder="Tell us about your request"></textarea>
-
-            <div class="mt-4 flex justify-end">
-              <button type="button" class="px-4 py-2 rounded-lg bg-indigo-600 text-white">Send message</button>
-            </div>
-          </form>
-        </div>
-      </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="mt-12 bg-white border-t border-gray-100">
-      <div class="max-w-7xl mx-auto px-6 py-8 grid md:grid-cols-3 gap-6 items-center">
-        <div>
-          <div class="font-extrabold text-lg">Nuvéra</div>
-          <div class="text-sm text-gray-600 mt-1">Fine textiles & handloom craft</div>
-        </div>
-
-        <div class="text-sm text-gray-600">
-          © 2025 Nuvéra — All rights reserved.
-        </div>
-
-        <div class="flex items-center gap-4 justify-end">
-          <a class="text-sm" href="#">Instagram</a>
-          <a class="text-sm" href="#">Facebook</a>
-          <a class="text-sm" href="#">Pinterest</a>
-        </div>
-      </div>
-    </footer>
-  </main>
 </body>
 </html>
